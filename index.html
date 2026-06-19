@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WorkspaceWiz</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <!-- Your CSS -->
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- PWA FIXED LINKS -->
+    <link rel="manifest" href="/manifest.json">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="WorkspaceWiz">
+    <link rel="apple-touch-icon" href="/icon.png">
+
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">🏢 WorkspaceWiz</a>
+            <div id="user-info" class="d-none text-light">
+                <a id="admin-panel-link" href="/admin" target="_blank" class="btn btn-sm btn-warning me-2 d-none">Admin Panel</a>
+                <span id="user-email"></span>
+                <button class="btn btn-sm btn-outline-light ms-2" onclick="logout()">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Toast Notification -->
+    <div class="toast-container position-fixed top-0 end-0 p-3"></div>
+
+    <div class="container mt-4">
+        
+        <!-- Login Section -->
+        <div id="login-section">
+            <div class="hero-section">
+                <h1 class="display-4">Welcome to WorkspaceWiz</h1>
+                <p class="lead">Book your perfect workspace in seconds.</p>
+            </div>
+
+            <div class="card p-4 mx-auto" style="max-width: 400px;">
+                <h3 class="text-center mb-4">Login or Sign Up</h3>
+
+                <div id="step-1">
+                    <input type="email" id="email-input" class="form-control mb-3" placeholder="Enter your email">
+                    <button class="btn btn-primary w-100" onclick="sendOtp()">Continue</button>
+                </div>
+
+                <div id="step-2" class="d-none">
+                    <input type="text" id="otp-input" class="form-control mb-3" placeholder="Enter OTP">
+                    <button class="btn btn-success w-100" onclick="verifyOtp()">Verify</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard -->
+        <div id="dashboard-section" class="d-none">
+
+            <!-- Tabs -->
+            <ul class="nav nav-tabs mb-3">
+                <li class="nav-item">
+                    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#spaces-pane">
+                        <i class="bi bi-grid"></i> Spaces
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#bookings-pane" onclick="loadBookings()">
+                        <i class="bi bi-calendar-check"></i> Bookings
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#wishlist-pane" onclick="loadWishlist()">
+                        <i class="bi bi-heart"></i> Wishlist
+                    </button>
+                </li>
+            </ul>
+
+            <div class="tab-content">
+
+                <!-- Spaces -->
+                <div class="tab-pane fade show active" id="spaces-pane">
+
+                    <div class="input-group mb-3">
+                        <input type="text" id="search-input" class="form-control" placeholder="Search spaces...">
+                        <button class="btn btn-primary" onclick="searchSpaces()">Search</button>
+
+                        <select id="floor-filter" class="form-select ms-2" onchange="filterSpacesByFloor()">
+                            <option value="">All Floors</option>
+                            <option value="1">Floor 1</option>
+                            <option value="2">Floor 2</option>
+                            <option value="3">Floor 3</option>
+                        </select>
+                    </div>
+
+                    <div id="spaces-list" class="row"></div>
+
+                    <h4 class="mt-4">Recommended</h4>
+                    <div id="recommendations-list" class="row"></div>
+                </div>
+
+                <!-- Wishlist -->
+                <div class="tab-pane fade" id="wishlist-pane">
+                    <h4>Wishlist</h4>
+                    <div id="wishlist-items" class="row"></div>
+                </div>
+
+                <!-- Bookings -->
+                <div class="tab-pane fade" id="bookings-pane">
+                    <div id="bookings-list" class="list-group"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Booking Modal -->
+    <div class="modal fade" id="bookingModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5>Book Space</h5>
+                    <button class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    <input type="hidden" id="book-space-id">
+
+                    <input type="date" id="book-date" class="form-control mb-2">
+
+                    <select id="book-time" class="form-select mb-2">
+                        <option>09:00 AM - 12:00 PM</option>
+                        <option>01:00 PM - 04:00 PM</option>
+                        <option>04:00 PM - 07:00 PM</option>
+                    </select>
+
+                    <div id="seat-map-container"></div>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button class="btn btn-primary" onclick="confirmBooking()">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+
+</body>
+</html>
