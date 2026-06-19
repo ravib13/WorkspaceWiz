@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+
+.env
+
+app.log
+
+frontend/node_modules/
+
+.vscode/
